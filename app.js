@@ -12,6 +12,8 @@ function setRouteMapping() {
   page('/articles', articlePage);
   page('/contact', contact);
   page('/contact/:contactName', contact);
+  page('/users/', baseUser);
+  page('/users/:id', loadUser, showUser);
   page('/*', pageNotFound);
   page();
 }
@@ -32,7 +34,6 @@ function contact(ctx) {
   $('p').text('viewing contact ' + (ctx.params.contactName || ''));
   $('div').hide();
   $('#contact').fadeIn(700);
-  console.log('contact');
 }
 
 function articlePage() {
@@ -74,10 +75,41 @@ function articlePage() {
   }
 
   Article.fetchAll(initArticlePage);
-  console.log('article page');
   $('div').hide();
   $('#articles').fadeIn(700);
 }
+
+function baseUser () {
+  $('div').hide();
+  $('#users').fadeIn(700);
+}
+
+function loadUser (ctx, next) {
+  var id = ctx.params.id;
+  $.getJSON('/users/' + id + '.json', function(user){
+    ctx.user = user;
+  }).done(function(){
+    next();
+  }).fail(function(){
+    pageNotFound();
+  });
+
+}
+
+function showUser(ctx) {
+  $('div').hide();
+  $('#users').append('<h3>First Name: ' + ctx.user.firstName + '</h3>'
+    + '<h3>Last Name: ' + ctx.user.lastName + '</h3>'
+    + '<ul>'
+    + '<li>Occupation: ' + ctx.user.occupation + '</li>'
+    + '<li>City: ' + ctx.user.address + '</li>'
+    + '<li>State: ' + ctx.user.state + '</li>'
+    + '</ul>'
+  );
+  $('#users').fadeIn(1000);
+}
+
+
 
 function pageNotFound() {
   $('#notFound').append('<h3>OMG!</h3><p>The page at "'
