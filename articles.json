@@ -1,0 +1,7 @@
+[{
+	"title": "<h1>Article 1</h1>",
+	"body": "<h3>Sub-title<\/h3><p>The body of the article goes here. I would like to add some javascript formatting. That will go here:<\/p><pre><code>function goHome () {var x = y;var y = x};<\/code><\/pre><p>That was the end of the code block. This is the end of my article.<\/p>"
+}, {
+	"title": "<h1>Article 2</h1>",
+	"body": "<h3>Sub-title<\/h3><p>The body of the article goes here.I would like to add some javascript formatting.That will go here:<\/p><pre><code>function walkDog(dog, length) {var x = dog;var y = length;console.log(x + y);}<\/code><\/pre><p>That was the end of the code block.Now I will analyze my advanced javascript code.Analysis here.This is the end of my article.<\/p>"
+}]
