@@ -4,22 +4,32 @@
 // to the location of paths which do not
 // match any of the following routes
 //
-page.base('/basic');
+function setRouteMapping() {
+  page.base('/basic');
 
-page('/', index);
-page('/about', about);
-page('/contact', contact);
-page('/contact/:contactName', contact);
-page();
+  page('/', home);
+  page('/about', about);
+  page('/contact', contact);
+  page('/contact/:contactName', contact);
+  page();
+}
 
-function index() {
-  $('p').text('viewing index');
+function home() {
+  $('p').text('viewing home');
+  $('div').hide();
+  $('#home').fadeIn(700);
 }
 
 function about() {
   $('p').text('viewing about');
+  $('div').hide();
+  $('#about').fadeIn(700);
 }
 
 function contact(ctx) {
   $('p').text('viewing contact ' + (ctx.params.contactName || ''));
+  $('div').hide();
+  $('#contact').fadeIn(700);
 }
+
+setRouteMapping();
