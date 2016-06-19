@@ -9,8 +9,10 @@ function setRouteMapping() {
 
   page('/', home);
   page('/about', about);
+  page('/articles', articlePage);
   page('/contact', contact);
   page('/contact/:contactName', contact);
+  page('/*', pageNotFound);
   page();
 }
 
@@ -30,6 +32,60 @@ function contact(ctx) {
   $('p').text('viewing contact ' + (ctx.params.contactName || ''));
   $('div').hide();
   $('#contact').fadeIn(700);
+  console.log('contact');
+}
+
+function articlePage() {
+  function Article(obj) {
+    this.title = obj.title;
+    this.body = obj.body;
+  }
+
+  Article.prototype.toHtml = function () {
+    var template = Handlebars.compile($('#article-template').html());
+    this.title = marked(this.title);
+    this.body = marked(this.body);
+    return template(this);
+  };
+
+  Article.all = [];
+
+  Article.loadAll = function (rawData) {
+    Article.all = rawData.map(function(element){
+      return new Article(element);
+    });
+  };
+
+  Article.fetchAll = function (viewCallback) {
+    $.getJSON('./articles.json', function(data){
+      Article.loadAll(data);
+    }).done(function(){
+      viewCallback();
+    });
+  };
+
+  function initArticlePage () {
+    Article.all.forEach(function(el){
+      $('#articles').append(el.toHtml());
+    });
+    $('pre code').each(function(i, block) {
+      hljs.highlightBlock(block);
+    });
+  }
+
+  Article.fetchAll(initArticlePage);
+  console.log('article page');
+  $('div').hide();
+  $('#articles').fadeIn(700);
+}
+
+function pageNotFound() {
+  $('#notFound').append('<h3>OMG!</h3><p>The page at "'
+    + location.hostname + location.pathname + location.search
+    + '" can\'t be found.'
+  );
+  $('div').hide();
+  $('#notFound').fadeIn(700);
 }
 
 setRouteMapping();

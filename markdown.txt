@@ -1,0 +1,11 @@
+### Sub-title
+
+The body of the article goes here. I would like to add some javascript formatting. That will go here:
+
+    function walkDog (dog, length) {
+      var x = dog;
+      var y = length;
+      console.log('I walked with my dog ' + x + ' for ' + y ' miles.');
+    }
+
+That was the end of the code block. Now I will analyze my advanced javascript code. Analysis here. This is the end of my article.
